@@ -5,6 +5,7 @@ from kafka import KafkaConsumer
 
 from src.model.Food import Food
 from src.model.FoodRequest import FoodRequest
+from src.model.OrderRequest import OrderRequest
 from src.repository.dao.BalconyDao import BalconyDao
 from src.repository.dao.FoodDao import FoodDao
 
@@ -23,14 +24,23 @@ class FoodsConsumer:
             food_request_blob = json.loads(message.value.decode('utf-8'))
             self.cook(FoodsConsumer.parse_food_request(food_request_blob))
 
-    def cook(self, food_request: FoodRequest):
-        food: Food = self.__food_dao.find_by_id(food_request.id)
-        food.cook()
-        self.__balcony_dao.publish(food)
+    def cook(self, order: OrderRequest):
+        for item in order.items:
+            food: Food = self.__food_dao.find_by_id(item.id)
+            food.cook()
+            self.__balcony_dao.publish({
+                "orderId": order.order_id,
+                "item": food.__dict__
+            })
 
     @staticmethod
     def parse_food_request(request):
-        return FoodRequest(
-            id=request["id"],
-            type=request["type"]
+        return OrderRequest(
+            order_id=int(request["orderId"]),
+            items=[
+                FoodRequest(
+                    id=item["id"],
+                    type=item["type"]
+                ) for item in request["items"]
+            ]
         )

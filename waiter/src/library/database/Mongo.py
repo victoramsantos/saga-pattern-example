@@ -32,15 +32,10 @@ class Mongo:
     def status(self):
         return self.__client.server_info()
 
+    def insert_one(self, collection: str, elem: dict):
+        db_collection = self.__database[collection]
+        db_collection.insert_one(elem)
 
-if __name__ == '__main__':
-    mongo = MongoClient(
-        host="localhost",
-        port=27018
-    )
-    print(mongo.server_info())
-    # db = mongo["productCatalog"]
-    # collection = db["productCatalog"]
-    #
-    # for elem in collection.aggregate([{'$sample': {'size': 1}}]):
-    #     print(elem)
+    def update_one(self, query, collection, value):
+        db_collection = self.__database[collection]
+        db_collection.update_one(query, {"$set": value})

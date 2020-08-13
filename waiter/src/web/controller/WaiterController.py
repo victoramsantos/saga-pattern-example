@@ -3,7 +3,7 @@ from typing import List
 from flask import Blueprint, request
 from flask_cors import cross_origin
 
-from src.model.product.Product import Product
+from src.model.Product import Product
 from src.web.controller import service
 from src.web.controller.UtilController import UtilController
 
@@ -33,9 +33,24 @@ class WaiterController:
         response: dict
         status_code: int = 200
         try:
-            items = request.json
-            service.order(items)
+            order = request.json
+            service.make_items(order)
             response = {}
+        except Exception as exception:
+            status_code = 500
+            response = UtilController.build_error_payback(exception, status_code)
+
+        return UtilController.build_response(response, status_code)
+
+    @staticmethod
+    @cross_origin()
+    @waiter_controller.route('/order', methods=['GET'])
+    def get_order():
+        response: dict
+        status_code: int = 200
+        try:
+            orders = service.get_orders()
+            response = [order.__dict__ for order in orders]
         except Exception as exception:
             status_code = 500
             response = UtilController.build_error_payback(exception, status_code)

@@ -19,5 +19,5 @@ class BalconyDao:
         Logger.info(f"publishing prepared food to balcony_topic: {item}")
         self.__producer.send(
             topic=self.__balcony_topic,
-            value=item.__dict__
+            value=item
         )

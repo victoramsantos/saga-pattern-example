@@ -1,10 +1,19 @@
-import json
+import configparser
+import os
 
-from kafka import KafkaConsumer
+from src.library.logger.Logger import Logger
 
-if __name__ == '__main__':
-    consumer = KafkaConsumer('balcony_topic', bootstrap_servers=['localhost:9092'])
+if __name__ == "__main__":
+    configuration = configparser.ConfigParser()
+    configuration.read("./application.ini")
 
-    for message in consumer:
-        d = json.loads(message.value.decode('utf-8'))
-        print(d)
+    environment: str = os.getenv("ENVIRONMENT", "DEV")
+    Logger.info(f"Running with environment: {environment}")
+
+    for key, value in configuration[environment].items():
+        if not os.getenv(key.upper(), None):
+            os.environ[key.upper()] = str(value)
+
+    from src.consumer import balcony_consumer
+
+    balcony_consumer.consumes()

@@ -9,5 +9,4 @@ COPY main.py /app
 RUN python3 -m pip install -r requirements
 
 ENV ENVIRONMENT DEV
-EXPOSE 8080
 CMD ["python", "/app/main.py"]
