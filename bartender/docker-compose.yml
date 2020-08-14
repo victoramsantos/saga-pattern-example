@@ -1,11 +1,10 @@
-version: "3.5"
+version: "3"
 services:
- mongo-waiter:
+ mongo-bartender:
   image: mongo:4.2.5
   ports:
-    - "27017:27017"
+    - "27019:27017"
   environment:
-    MONGO_INITDB_DATABASE: waiters
+    MONGO_INITDB_DATABASE: drinks
   volumes:
    - ./resources/database_entrypoint/mongodb:/docker-entrypoint-initdb.d
-

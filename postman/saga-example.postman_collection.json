@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "8a168c04-98bf-4eaf-9010-4b47a3912ba9",
+		"name": "waiter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/menu",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/menu",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"menu"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"orderId\": 1,\n    \"items\": [\n        {\n            \"id\": 1,\n            \"type\": \"FOOD\"\n        },\n        {\n            \"id\": 5,\n            \"type\": \"FOOD\"\n        },\n        {\n            \"id\": 2,\n            \"type\": \"DRINK\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/order",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[get] /order",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"id\": 1,\n        \"name\": \"Batata Frita\",\n        \"type\": \"FOOD\"\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Coca\",\n        \"type\": \"DRINK\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/order",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

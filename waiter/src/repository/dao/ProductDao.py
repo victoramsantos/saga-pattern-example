@@ -35,9 +35,12 @@ class ProductDao:
             elem=item
         )
 
-    def update_item(self, item_id, status):
+    def update_item(self, order_id, item_id, status):
         self.__mongo.update_one(
-            query={"itemId": item_id},
+            query={
+                "itemId": item_id,
+                "orderId": order_id
+            },
             collection=self.__customerOrders,
             value={"status": status}
         )

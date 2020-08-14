@@ -1,52 +1,9 @@
 version: "3.5"
 services:
 
- waiter:
-  build: ./waiter
-  environment:
-    - FLASK_PORT=8080
-    - KAFKA_SERVER=localhost:9200
-  ports:
-    - "8080:8080"
-  depends_on: 
-    - mongo-waiter
-    - kafka
-  restart: always
-  network_mode: "host"
-
- mongo-waiter:
-  image: mongo:4.2.5
-  ports:
-    - "27017:27017"
-  environment:
-    MONGO_INITDB_DATABASE: waiters
-  volumes:
-   - ./waiter/resources/database_entrypoint/mongodb:/docker-entrypoint-initdb.d
-  network_mode: "host"
-
- cooker:
-  build: ./cooker
-  environment:
-    - MONGO_PORT=27018
-    - KAFKA_SERVER=localhost:9200
-  depends_on: 
-    - mongo-cooker
-    - kafka
-  restart: always
-  network_mode: "host"
-
- mongo-cooker:
-  image: mongo:4.2.5
-  ports:
-    - "27018:27017"
-  environment:
-    MONGO_INITDB_DATABASE: foods
-  volumes:
-   - ./cooker/resources/database_entrypoint/mongodb:/docker-entrypoint-initdb.d
-  network_mode: "host"
-
  zookeeper:
   image: 'bitnami/zookeeper:latest'
+  container_name: zookeeper
   ports:
     - "2181:2181"
   environment:
@@ -55,9 +12,9 @@ services:
 
  kafka:
    image: 'bitnami/kafka:latest'
+   container_name: kafka
    ports:
      - "9092:9092"
-   container_name: kafka
    environment:
      - KAFKA_BROKER_ID=1
      - KAFKA_LISTENERS=PLAINTEXT://:9092

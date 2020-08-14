@@ -1,16 +1,19 @@
-# This is a sample Python script.
+import configparser
+import os
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from src.library.logger.Logger import Logger
 
+if __name__ == "__main__":
+    configuration = configparser.ConfigParser()
+    configuration.read("./application.ini")
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    environment: str = os.getenv("ENVIRONMENT", "DEV")
+    Logger.info(f"Running with environment: {environment}")
 
+    for key, value in configuration[environment].items():
+        if not os.getenv(key.upper(), None):
+            os.environ[key.upper()] = str(value)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    from src.consumer import drinks_consumer
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    drinks_consumer.consumes()

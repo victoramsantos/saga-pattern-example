@@ -25,6 +25,7 @@ class BalconyConsumer:
     def attend(self, order):
         Logger.info(f"Attending order_id={order['orderId']} item_id={order['item']['id']}")
         self.__product_dao.update_item(
+            order_id=int(order['orderId']),
             item_id=int(order["item"]["id"]),
             status="DONE"
         )

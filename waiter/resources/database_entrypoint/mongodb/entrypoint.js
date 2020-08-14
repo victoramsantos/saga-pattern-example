@@ -34,6 +34,11 @@ db.products.insertMany([
         name: "Pizza",
         type: "FOOD",
         id: 7
+    },
+    {
+        name: "Pitu",
+        type: "DRINK",
+        id: 8
     }
 ]);
 db.createCollection("customerOrders");
