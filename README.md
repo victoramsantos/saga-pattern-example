@@ -5,8 +5,8 @@ No padrão Saga temos que para um determinado microsserviço as informações de
 
 ## Cenário - Padaria
 
-Para exemplificar o padrão foi escolhido o domínio de uma padaria. Neste domínio temos três personas sendo [Garçons (waiter)](./waiter), [Cozinheiros (cooker)](./cooker) e [Barmen (bartender)](./bartender).
-Neste cenário, os garçons respondem quais são os itens do menu, realizam os pedidos e verificam se os pedidos estão prontos. Os cozinheiros e barmen recebem os pedidos e os produzem, aguardando o tempo necessário para preparo de cada item.
+Para exemplificar o padrão foi escolhido o domínio de uma padaria. Neste domínio temos duas personas sendo [Garçons (waiter)](./waiter) e [Cozinheiros (cooker)](./cooker).
+Neste cenário, os garçons respondem quais são os itens do menu, realizam os pedidos e verificam se os pedidos estão prontos. Os cozinheiros recebem os pedidos e os produzem, aguardando o tempo necessário para preparo de cada item.
 Uma vez que cada item do pedido foi enviado para o preparo, é possível perguntar ao garçom se o pedido já está pronto. Caso esteja, o estado do pedido será pronto, caso contrário, pendente. 
 
 ## Arquitetura
@@ -17,7 +17,7 @@ Abaixo segue a arquitura implementada.
 
 Conforme pode ser visto, foram criados diferentes microsserviços para cada persona. Optamos por utilizar o [Apache Kafka](https://kafka.apache.org/) para gerir as mensagens entre os microsserviços e o [MongoDd](https://www.mongodb.com/) como banco de dados. 
 
-Todos os microsserviços foram implementados em [Python](https://www.python.org/). Porém, como apenas o microsserviço [waiter](./waiter) possui interface com o usuário, ele possui uma interface web construida utilizando [Flask](https://flask.palletsprojects.com/en/1.1.x/). Já os demais microsserviços ([cooker](./cooker) e [bartender](./bartender)) são apenas consumidores, logo não possuindo interface web.
+Todos os microsserviços foram implementados em [Python](https://www.python.org/). Porém, como apenas o microsserviço [waiter](./waiter) possui interface com o usuário, ele possui uma interface web construida utilizando [Flask](https://flask.palletsprojects.com/en/1.1.x/). Já o microsserviço ([cooker](./cooker) é apenas consumidor, logo não possuindo interface web.
 
 ## Rodando a stack
 
