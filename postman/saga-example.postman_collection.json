@@ -30,7 +30,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"orderId\": 1,\n    \"items\": [\n        {\n            \"id\": 1,\n            \"type\": \"FOOD\"\n        },\n        {\n            \"id\": 5,\n            \"type\": \"FOOD\"\n        },\n        {\n            \"id\": 2,\n            \"type\": \"DRINK\"\n        }\n    ]\n}",
+					"raw": "{\n    \"orderId\": 2,\n    \"items\": [\n        {\n            \"id\": 1,\n            \"type\": \"FOOD\"\n        },\n        {\n            \"id\": 5,\n            \"type\": \"FOOD\"\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"

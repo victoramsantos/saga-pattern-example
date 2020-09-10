@@ -6,19 +6,9 @@ db.products.insertMany([
         id: 1
     },
     {
-        name: "Coca",
-        type: "DRINK",
-        id: 2
-    },
-    {
         name: "Big Mac",
         type: "FOOD",
         id: 3
-    },
-    {
-        name: "Tequila",
-        type: "DRINK",
-        id: 4
     },
     {
         name: "Hot Dog",
@@ -34,11 +24,6 @@ db.products.insertMany([
         name: "Pizza",
         type: "FOOD",
         id: 7
-    },
-    {
-        name: "Pitu",
-        type: "DRINK",
-        id: 8
     }
 ]);
 db.createCollection("customerOrders");

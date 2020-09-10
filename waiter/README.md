@@ -14,11 +14,6 @@ Exemplo de resposta:
         "id": 1,
         "name": "Batata Frita",
         "type": "FOOD"
-    },
-    {
-        "id": 2,
-        "name": "Coca",
-        "type": "DRINK"
     }
 ]
 ```
@@ -39,10 +34,6 @@ O padrão do body da request deverá ser como no exemplo:
         {
             "id": 5,
             "type": "FOOD"
-        },
-        {
-            "id": 2,
-            "type": "DRINK"
         }
     ]
 }
@@ -50,8 +41,7 @@ O padrão do body da request deverá ser como no exemplo:
 
 Onde os **id** e **type** são ids e types dos itens do menu. O campo **orderId** é o identificado do pedido realizado.
 
-Os pedidos de comida e bebidas (os tipos food e drink) são enviados para as filas dos [cooker](../cooker) e 
-[bartender](../bartender) respectivamente.
+Os pedidos de comida (o tipo food) são enviados para a fila do [cooker](../cooker).
 
 Também é adicionado na fila balcão os itens enviados aos consumidores com o status de PENDING.
 
