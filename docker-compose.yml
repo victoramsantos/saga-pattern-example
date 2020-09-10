@@ -52,8 +52,6 @@ services:
  mongo-cooker:
   image: mongo:4.2.5
   container_name: mongo-cooker
-  # ports:
-  #   - "27018:27017"
   environment:
     MONGO_INITDB_DATABASE: foods
   volumes:
@@ -74,8 +72,6 @@ services:
  mongo-bartender:
   image: mongo:4.2.5
   container_name: mongo-bartender
-  # ports:
-  #   - "27019:27017"
   environment:
     MONGO_INITDB_DATABASE: drinks
   volumes:
