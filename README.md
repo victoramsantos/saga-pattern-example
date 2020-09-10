@@ -21,9 +21,7 @@ Todos os microsserviços foram implementados em [Python](https://www.python.org/
 
 ## Rodando a stack
 
-Para construir as dependências necessárias para os microsserviços foi contruido um script de [bootstrap](./bootstrap.sh). Este script cria os containers [Docker](https://www.docker.com/) para o Kafka e suas dependências ([Zookeeper](https://kafka.apache.org/documentation/#zk)) e os bancos de dados dos microsserviços. Após isso é possível rodar os microsserviços individualmente.
-
-Para destruir os containers, execute o script de [shutdown](./shutdown.sh).
+Para construir as dependências necessárias para os microsserviços foi contruido um [docker-compose.yml](./docker-compose.yml). Ele cria os containers [Docker](https://www.docker.com/) das aplicações, o Kafka e suas dependências ([Zookeeper](https://kafka.apache.org/documentation/#zk)) além dos bancos de dados dos microsserviços. 
 
 ## Testando a stack
 
