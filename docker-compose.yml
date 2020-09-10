@@ -1,6 +1,86 @@
 version: "3.5"
 services:
 
+ waiter:
+  build: ./waiter
+  container_name: waiter
+  ports:
+    - "8081:8081"
+  environment:
+    MONGO_HOST: mongo-waiter
+    MONGO_PORT: 27017
+    KAFKA_SERVER: kafka:9092
+  depends_on: 
+    - mongo-waiter
+    - kafka
+  restart: always
+
+ waiter-consumer:
+  build: 
+    context: ./waiter
+    dockerfile: DockerfileConsumer
+  container_name: waiter-consumer
+  environment:
+    MONGO_HOST: mongo-waiter
+    MONGO_PORT: 27017
+    KAFKA_SERVER: kafka:9092
+  depends_on: 
+    - mongo-waiter
+    - kafka
+  restart: always  
+
+ mongo-waiter:
+  image: mongo:4.2.5
+  container_name: mongo-waiter
+  environment:
+    MONGO_INITDB_DATABASE: waiters
+  volumes:
+   - ./waiter/resources/database_entrypoint/mongodb:/docker-entrypoint-initdb.d 
+
+ cooker:
+  build: ./cooker
+  container_name: cooker
+  environment:
+    MONGO_HOST: mongo-cooker
+    MONGO_PORT: 27017
+    KAFKA_SERVER: kafka:9092
+  depends_on: 
+    - mongo-cooker
+    - kafka
+  restart: always
+
+ mongo-cooker:
+  image: mongo:4.2.5
+  container_name: mongo-cooker
+  # ports:
+  #   - "27018:27017"
+  environment:
+    MONGO_INITDB_DATABASE: foods
+  volumes:
+   - ./cooker/resources/database_entrypoint/mongodb:/docker-entrypoint-initdb.d 
+
+ bartender:
+  build: ./bartender
+  container_name: bartender
+  environment:
+    MONGO_HOST: mongo-bartender
+    MONGO_PORT: 27017
+    KAFKA_SERVER: kafka:9092
+  depends_on: 
+    - mongo-bartender
+    - kafka
+  restart: always
+
+ mongo-bartender:
+  image: mongo:4.2.5
+  container_name: mongo-bartender
+  # ports:
+  #   - "27019:27017"
+  environment:
+    MONGO_INITDB_DATABASE: drinks
+  volumes:
+   - ./bartender/resources/database_entrypoint/mongodb:/docker-entrypoint-initdb.d
+
  zookeeper:
   image: 'bitnami/zookeeper:latest'
   container_name: zookeeper
@@ -8,19 +88,19 @@ services:
     - "2181:2181"
   environment:
     - ALLOW_ANONYMOUS_LOGIN=yes
-  network_mode: "host"
 
  kafka:
    image: 'bitnami/kafka:latest'
    container_name: kafka
    ports:
-     - "9092:9092"
+     - '9092:9092'
+     - '9093:9093'
    environment:
-     - KAFKA_BROKER_ID=1
-     - KAFKA_LISTENERS=PLAINTEXT://:9092
-     - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
-     - KAFKA_ZOOKEEPER_CONNECT=localhost:2181
-     - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
+      - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
    depends_on:
      - zookeeper
-   network_mode: "host"
